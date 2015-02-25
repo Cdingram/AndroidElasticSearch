@@ -85,6 +85,10 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
+		Thread thread = new SearchThread("dark");
+		thread.start();
+		
+		
 		// Refresh the list when visible
 		// TODO: Search all
 		
@@ -126,7 +130,17 @@ public class MainActivity extends Activity {
 
 	class SearchThread extends Thread {
 		// TODO: Implement search thread
+		private String search;
 		
+		public SearchThread(String search) {
+			this.search = search;
+		}
+		
+		public void run() {
+			movies.addAll(movieManager.searchMovies(search, null));
+			
+			runOnUiThread(doUpdateGUIList);
+		}
 	}
 
 	
